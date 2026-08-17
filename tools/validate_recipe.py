@@ -172,10 +172,17 @@ def check_revision(data: dict, previous: dict | None, report: Report) -> None:
         report.ok(f"revision ({value})")
         return
     if value <= old:
+        # 내용이 그대로면 올릴 이유가 없다. revision 은 "무엇이 배포됐는지"를
+        # 가리키는 표지이므로, 같은 내용에 다른 번호를 붙이면 오히려 진단이
+        # 헷갈린다. 워크플로·README 만 고친 커밋이 여기서 걸리던 오탐을 막는다.
+        if data == previous:
+            report.ok(f"revision ({value}, 내용 변경 없음)")
+            return
         report.fail(
             "revision",
-            f"{value} ≤ 이전 {old} — 올리지 않으면 진단 로그가 어떤 레시피에서 "
-            "난 실패인지 말해 주지 못한다 (docs/11 §6.4 3단계)",
+            f"{value} ≤ 이전 {old} 인데 내용이 바뀌었다 — 올리지 않으면 진단 "
+            "로그가 어떤 레시피에서 난 실패인지 말해 주지 못한다 "
+            "(docs/11 §6.4 3단계)",
         )
         return
     report.ok(f"revision ({old} → {value})")

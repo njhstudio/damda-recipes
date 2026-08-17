@@ -82,8 +82,10 @@ mutate_raw "JSON 문법 깨짐" "JSON 파싱" 's/"schemaVersion": 1,/"schemaVers
 mutate "schemaVersion 초과" "schemaVersion" \
   "d['schemaVersion'] = 2"
 
-mutate "revision 미증가" "revision" \
-  "d['revision'] = d['revision'] - 1"
+# 내용이 바뀌었는데 revision 을 안 올린 경우가 실제 위험이다.
+# (내용이 그대로면 올릴 이유가 없고, 같은 내용에 다른 번호를 붙이면 진단이 헷갈린다.)
+mutate "revision 미증가 (내용은 바뀜)" "revision" \
+  "d['revision'] = d['revision'] - 1; d['sources']['tiktok']['hosts'].append('m.tiktok.com')"
 
 mutate "revision 정수 아님" "revision" \
   "d['revision'] = '5'"
