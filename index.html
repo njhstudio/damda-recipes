@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>damda-recipes</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    margin: 0; padding: 2.5rem 1.25rem;
+    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 42rem; margin-inline: auto;
+  }
+  h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+  p.lead { margin: 0 0 2rem; opacity: .7; }
+  code, a.file {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .9em;
+  }
+  ul { padding-left: 1.2rem; }
+  li { margin: .4rem 0; }
+  footer { margin-top: 2.5rem; font-size: .875rem; opacity: .6; }
+</style>
+</head>
+<body>
+  <h1>damda-recipes</h1>
+  <p class="lead">Damda 앱의 파싱 레시피를 호스팅합니다.</p>
+
+  <p>
+    이 사이트는 사람이 쓰는 서비스가 아니라, 앱이 읽어 가는 <strong>정적 JSON 파일</strong>
+    하나를 놓아둔 곳입니다. 담고 있는 것은 URL 템플릿·HTTP 헤더·정규식·JSON 경로 같은
+    <strong>데이터뿐</strong>이며, 실행 코드나 개인정보는 포함하지 않습니다.
+  </p>
+
+  <ul>
+    <li>현재 레시피: <a class="file" href="v1/recipes.json">v1/recipes.json</a></li>
+    <li>수정·배포 방법: 저장소의 <code>README.md</code></li>
+  </ul>
+
+  <p>
+    <code>v1/</code> 경로는 앱의 <code>schemaVersion</code> 에 대응합니다.
+    구버전 앱이 계속 읽으므로 <strong>기존 경로는 삭제하지 않습니다.</strong>
+  </p>
+
+  <footer>
+    Damda &middot; 이 사이트는 TikTok, X 를 포함한 어떤 플랫폼과도 제휴 관계가 없습니다.
+  </footer>
+</body>
+</html>

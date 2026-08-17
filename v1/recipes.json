@@ -1,0 +1,343 @@
+{
+  "schemaVersion": 1,
+  "revision": 4,
+  "minSupportedVersion": "1.0.0",
+  "userAgent": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
+  "trackingParams": [
+    "utm_*",
+    "t",
+    "s",
+    "si",
+    "_r",
+    "_t",
+    "_d",
+    "is_from_webapp",
+    "sender_device",
+    "sender_web_id",
+    "web_id",
+    "share_app_id",
+    "share_link_id",
+    "share_item_id",
+    "social_sharing",
+    "timestamp",
+    "user_id",
+    "refer",
+    "referer",
+    "checksum",
+    "enter_from",
+    "tt_from",
+    "ref_src",
+    "ref_url",
+    "cxt",
+    "lang"
+  ],
+  "sources": {
+    "tiktok": {
+      "enabled": true,
+      "hosts": [
+        "tiktok.com",
+        "www.tiktok.com",
+        "m.tiktok.com",
+        "vm.tiktok.com",
+        "vt.tiktok.com",
+        "v.douyin.com"
+      ],
+      "shortLinkHosts": [
+        "vm.tiktok.com",
+        "vt.tiktok.com",
+        "v.douyin.com"
+      ],
+      "shortLinkPathPattern": "^/(?:t/)?[A-Za-z0-9]+/?$",
+      "postIdPattern": "/(?:video|photo|v)/(\\d+)",
+      "handlePattern": "/@([^/?#]+)",
+      "canonicalTemplate": "https://www.tiktok.com/@{handle}/{kind}/{postId}",
+      "canonicalTemplateNoHandle": "https://www.tiktok.com/{kind}/{postId}",
+      "requestUrlTemplate": "{canonicalUrl}",
+      "requestHeaders": {
+        "Referer": "https://www.tiktok.com/",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9"
+      },
+      "extract": {
+        "kind": "htmlEmbeddedJson",
+        "bodyPatterns": [
+          "<script[^>]+id=\"api-data\"[^>]*>(.*?)</script>",
+          "<script[^>]+id=\"__UNIVERSAL_DATA_FOR_REHYDRATION__\"[^>]*>(.*?)</script>"
+        ],
+        "itemRoots": [
+          "__DEFAULT_SCOPE__.webapp\\.reflow\\.video\\.detail.itemInfo.itemStruct",
+          "videoDetail.itemInfo.itemStruct",
+          "__DEFAULT_SCOPE__.webapp\\.video-detail.itemInfo.itemStruct"
+        ],
+        "statusPaths": [
+          "__DEFAULT_SCOPE__.webapp\\.reflow\\.video\\.detail.statusCode",
+          "videoDetail.statusCode",
+          "__DEFAULT_SCOPE__.webapp\\.video-detail.statusCode"
+        ],
+        "statusMap": {
+          "0": "OK",
+          "10101": "NOT_FOUND",
+          "10202": "PRIVATE_CONTENT",
+          "10204": "NOT_FOUND",
+          "10216": "PRIVATE_CONTENT",
+          "10217": "NOT_FOUND",
+          "10218": "NOT_FOUND",
+          "10222": "PRIVATE_CONTENT",
+          "10231": "PRIVATE_CONTENT"
+        }
+      },
+      "fields": {
+        "postId": [
+          "id"
+        ],
+        "title": [
+          "desc",
+          "imagePost.title"
+        ],
+        "authorName": [
+          "author.nickname"
+        ],
+        "authorHandle": [
+          "author.uniqueId"
+        ],
+        "authorAvatar": [
+          "author.avatarThumb",
+          "author.avatarMedium"
+        ],
+        "cover": [
+          "video.cover",
+          "video.originCover",
+          "video.dynamicCover"
+        ],
+        "durationMs": [],
+        "durationSeconds": [
+          "video.duration"
+        ],
+        "width": [
+          "video.width"
+        ],
+        "height": [
+          "video.height"
+        ],
+        "playAddr": [
+          "video.playAddr"
+        ],
+        "downloadAddr": [
+          "video.downloadAddr"
+        ],
+        "bitrateList": [
+          "video.bitrateInfo"
+        ],
+        "bitrateUrl": [
+          "PlayAddr.UrlList.0"
+        ],
+        "bitrateWidth": [
+          "PlayAddr.Width"
+        ],
+        "bitrateHeight": [
+          "PlayAddr.Height"
+        ],
+        "bitrateBps": [
+          "Bitrate"
+        ],
+        "bitrateSize": [
+          "PlayAddr.DataSize"
+        ],
+        "imageList": [
+          "imagePost.images"
+        ],
+        "imageUrl": [
+          "imageURL.urlList.0"
+        ],
+        "imageWidth": [
+          "imageWidth"
+        ],
+        "imageHeight": [
+          "imageHeight"
+        ]
+      },
+      "options": {
+        "videoMimeType": "video/mp4",
+        "imageMimeType": "image/jpeg",
+        "downloadAddrWatermarked": true,
+        "includeCoverItem": false,
+        "kindPattern": "/(video|photo)/"
+      },
+      "selfHeal": {
+        "enabled": true,
+        "mediaUrlKeys": [
+          "playAddr",
+          "play_addr",
+          "downloadAddr",
+          "download_addr",
+          "playApi",
+          "play_url",
+          "downloadUrl",
+          "download_url",
+          "videoUrl",
+          "video_url"
+        ],
+        "watermarkedKeys": [
+          "downloadAddr",
+          "download_addr",
+          "downloadUrl",
+          "download_url"
+        ],
+        "imageUrlKeys": [
+          "imageURL",
+          "image_url",
+          "displayImage",
+          "display_image"
+        ],
+        "postIdKeys": [
+          "id",
+          "awemeId",
+          "aweme_id"
+        ],
+        "titleKeys": [
+          "desc",
+          "title"
+        ],
+        "authorNameKeys": [
+          "nickname",
+          "nick_name"
+        ],
+        "authorHandleKeys": [
+          "uniqueId",
+          "unique_id"
+        ],
+        "avatarKeys": [
+          "avatarThumb",
+          "avatar_thumb",
+          "avatarMedium"
+        ],
+        "coverKeys": [
+          "cover",
+          "originCover",
+          "origin_cover"
+        ],
+        "widthKeys": [
+          "width"
+        ],
+        "heightKeys": [
+          "height"
+        ],
+        "durationSecondsKeys": [
+          "duration"
+        ],
+        "durationMsKeys": [
+          "durationMs",
+          "duration_ms"
+        ],
+        "maxDepth": 14,
+        "maxNodes": 20000,
+        "maxCandidates": 6,
+        "probeBytes": 1024
+      },
+      "expiryParams": [
+        "x-expires",
+        "expire",
+        "expires"
+      ],
+      "downloadHeaders": {
+        "Referer": "https://www.tiktok.com/"
+      },
+      "attachCookies": true
+    },
+    "x": {
+      "enabled": true,
+      "hosts": [
+        "x.com",
+        "www.x.com",
+        "mobile.x.com",
+        "twitter.com",
+        "www.twitter.com",
+        "mobile.twitter.com"
+      ],
+      "shortLinkHosts": [],
+      "postIdPattern": "/status(?:es)?/(\\d+)",
+      "handlePattern": "^/([A-Za-z0-9_]+)/status",
+      "canonicalTemplate": "https://x.com/{handle}/status/{postId}",
+      "canonicalTemplateNoHandle": "https://x.com/i/status/{postId}",
+      "requestUrlTemplate": "https://cdn.syndication.twimg.com/tweet-result?id={postId}&token={token}&lang=en",
+      "requestHeaders": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9"
+      },
+      "extract": {
+        "kind": "json",
+        "itemRoots": [
+          ""
+        ],
+        "patterns": {
+          "variantSize": "/(\\d+)x(\\d+)/"
+        }
+      },
+      "fields": {
+        "typeName": [
+          "__typename"
+        ],
+        "postId": [
+          "id_str"
+        ],
+        "title": [
+          "text"
+        ],
+        "authorName": [
+          "user.name"
+        ],
+        "authorHandle": [
+          "user.screen_name"
+        ],
+        "authorAvatar": [
+          "user.profile_image_url_https"
+        ],
+        "mediaList": [
+          "mediaDetails"
+        ],
+        "mediaType": [
+          "type"
+        ],
+        "mediaCover": [
+          "media_url_https"
+        ],
+        "mediaWidth": [
+          "original_info.width"
+        ],
+        "mediaHeight": [
+          "original_info.height"
+        ],
+        "durationMs": [
+          "video_info.duration_millis"
+        ],
+        "variantList": [
+          "video_info.variants"
+        ],
+        "variantContentType": [
+          "content_type"
+        ],
+        "variantUrl": [
+          "url"
+        ],
+        "variantBitrate": [
+          "bitrate"
+        ]
+      },
+      "options": {
+        "videoMimeType": "video/mp4",
+        "imageMimeType": "image/jpeg",
+        "photoType": "photo",
+        "gifType": "animated_gif",
+        "allowedContentTypes": [
+          "video/mp4"
+        ],
+        "tombstoneTypes": [
+          "TweetTombstone"
+        ]
+      },
+      "expiryParams": [],
+      "downloadHeaders": {},
+      "attachCookies": false
+    }
+  }
+}
