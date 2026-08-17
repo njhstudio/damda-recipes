@@ -12,19 +12,6 @@
 # 빈 줄과 '#' 로 시작하는 줄은 무시된다.
 
 # TikTok — 페이지, API, 미디어 CDN
-tiktok.com
-tiktokcdn.com
-tiktokcdn-us.com
-tiktokcdn-eu.com
-tiktokv.com
-tiktokv.us
-ibyteimg.com
-ibytedtos.com
-byteoversea.com
-muscdn.com
-douyin.com
-douyinpic.com
-douyinvod.com
 
 # X (Twitter) — 페이지, syndication API, 미디어 CDN, 단축 링크
 x.com

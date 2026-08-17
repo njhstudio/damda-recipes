@@ -67,7 +67,7 @@ BANNED_VALUE_PATTERNS = [
 
 # 반드시 있어야 하는 것. 없으면 앱이 그 소스를 해석하지 못한다.
 REQUIRED_TOP_KEYS = ["schemaVersion", "revision", "userAgent", "sources"]
-REQUIRED_SOURCES = ["tiktok", "x"]
+REQUIRED_SOURCES = ["x"]  # TikTok removed 2026-08-17 (app adr/013)
 REQUIRED_SOURCE_KEYS = [
     "enabled",
     "hosts",
@@ -230,7 +230,7 @@ def check_required(data: dict, report: Report) -> None:
         if not isinstance(source.get("fields"), dict):
             report.fail("필수 키", f"sources.{name}.fields 가 객체가 아니다")
             return
-    report.ok("필수 키 (sources.tiktok · sources.x 의 hosts · extract 등)")
+    report.ok("필수 키 (sources.x 의 hosts · extract 등)")
 
 
 def check_no_executable_fields(data: dict, report: Report) -> None:

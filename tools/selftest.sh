@@ -85,7 +85,7 @@ mutate "schemaVersion 초과" "schemaVersion" \
 # 내용이 바뀌었는데 revision 을 안 올린 경우가 실제 위험이다.
 # (내용이 그대로면 올릴 이유가 없고, 같은 내용에 다른 번호를 붙이면 진단이 헷갈린다.)
 mutate "revision 미증가 (내용은 바뀜)" "revision" \
-  "d['revision'] = d['revision'] - 1; d['sources']['tiktok']['hosts'].append('m.tiktok.com')"
+  "d['revision'] = d['revision'] - 1; d['sources']['x']['hosts'].append('m.x.com')"
 
 mutate "revision 정수 아님" "revision" \
   "d['revision'] = '5'"
@@ -93,14 +93,14 @@ mutate "revision 정수 아님" "revision" \
 mutate "필수 키 누락 (x.hosts)" "필수 키" \
   "del d['sources']['x']['hosts']"
 
-mutate "필수 키 누락 (tiktok.extract)" "필수 키" \
-  "del d['sources']['tiktok']['extract']"
+mutate "필수 키 누락 (x.extract)" "필수 키" \
+  "del d['sources']['x']['extract']"
 
 mutate "실행 코드 필드 (script)" "실행 코드 성격 필드" \
   "d['sources']['x']['script'] = 'return 1'"
 
 mutate "실행 코드 필드 (onError.eval)" "실행 코드 성격 필드" \
-  "d['sources']['tiktok']['onError'] = {'eval': 'x'}"
+  "d['sources']['x']['onError'] = {'eval': 'x'}"
 
 mutate "실행 코드 필드 (조건 분기)" "실행 코드 성격 필드" \
   "d['sources']['x']['fields']['title'] = {'if': 'a', 'then': 'b'}"
@@ -109,10 +109,10 @@ mutate "실행 코드 값 (화살표 함수)" "실행 코드 성격 필드" \
   "d['sources']['x']['canonicalTemplate'] = 'x => x.id'"
 
 mutate "정규식 깨짐 (괄호 불일치)" "정규식 컴파일" \
-  "d['sources']['tiktok']['postIdPattern'] = '/(?:video|photo/(\\\\d+)'"
+  "d['sources']['x']['postIdPattern'] = '/(?:status/(\\\\d+)'"
 
 mutate "정규식 깨짐 (닫히지 않은 클래스)" "정규식 컴파일" \
-  "d['sources']['tiktok']['extract']['bodyPatterns'][0] = '<script[^>+>(.*?)</script>'"
+  "d['sources']['x']['extract']['patterns']['variantSize'] = '/(\\d+x(\\d+)/'"
 
 mutate "정규식 — 파이썬은 되나 Dart 는 안 되는 문법" "정규식 컴파일 (ECMAScript)" \
   "d['sources']['x']['postIdPattern'] = '/status/(?P<id>\\\\d+)'"
@@ -121,13 +121,13 @@ mutate "YouTube 문자열 (hosts)" "YouTube 게이트" \
   "d['sources']['x']['hosts'].append('youtube.com')"
 
 mutate "YouTube 문자열 (헤더 값)" "YouTube 게이트" \
-  "d['sources']['tiktok']['requestHeaders']['Referer'] = 'https://youtu.be/'"
+  "d['sources']['x']['requestHeaders']['Referer'] = 'https://youtu.be/'"
 
 mutate "화이트리스트 밖 호스트" "호스트 화이트리스트" \
   "d['sources']['x']['hosts'].append('evil.example.com')"
 
 mutate "화이트리스트 밖 단축 링크 호스트" "호스트 화이트리스트" \
-  "d['sources']['tiktok']['shortLinkHosts'].append('bit.ly')"
+  "d['sources']['x']['shortLinkHosts'].append('bit.ly')"
 
 mutate "cleartext http URL" "URL 스킴" \
   "d['sources']['x']['requestUrlTemplate'] = 'http://cdn.syndication.twimg.com/x'"

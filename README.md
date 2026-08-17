@@ -27,7 +27,7 @@
 
 ```jsonc
 "sources": {
-  "tiktok": {
+  "x": {
     "enabled": false,   // ← 이것만 바꾼다
 ```
 
@@ -74,7 +74,7 @@ python3 tools/validate_recipe.py v1/recipes.json --previous <(git show HEAD:v1/r
 ### 4단계 — push 하고 확인한다
 
 ```bash
-git commit -am "fix(tiktok): itemRoots 갱신 — rev 5"
+git commit -am "fix(x): itemRoots 갱신 — rev 7"
 git push
 ```
 
@@ -144,7 +144,7 @@ tools/app_host_whitelist.txt    ← 앱 바이너리 호스트 화이트리스�
 | 1 | JSON 으로 파싱되는가 | 앱이 응답을 버리고 보존본을 쓴다 |
 | 2 | `schemaVersion` ≤ 앱이 아는 값(현재 **1**) | 앱이 레시피를 통째로 무시한다 |
 | 3 | `revision` 이 정수이고 직전 커밋보다 증가했는가 | 어느 레시피에서 난 실패인지 진단 불가 |
-| 4 | 필수 키 (`sources.tiktok`·`sources.x` 의 `hosts`·`extract` 등) | 해당 소스를 해석하지 못한다 |
+| 4 | 필수 키 (`sources.x` 의 `hosts`·`extract` 등) | 해당 소스를 해석하지 못한다 |
 | 5 | **실행 코드 성격 필드가 없는가** | 스토어 삭제 사유 |
 | 6 | **정규식이 실제로 컴파일되는가** (Python + ECMAScript 양쪽) | 파싱이 조용히 전부 실패한다 |
 | 7 | **YouTube 문자열 0건** | 정책 위반 |
