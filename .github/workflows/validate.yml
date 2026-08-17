@@ -1,0 +1,63 @@
+name: 레시피 검증
+
+# 여기에 push 하면 그 레시피는 **전 사용자에게 한 번에** 나간다.
+# 단계적 롤아웃도, 타겟팅도 없다 (adr/011 이 치른 비용). 이 워크플로가
+# 그 대가를 메우는 유일한 장치다.
+#
+# ⚠️ GitHub Pages 배포 자체는 이 워크플로의 성공을 기다리지 않는다.
+#    (Pages 는 브랜치의 파일을 그대로 서빙한다.)
+#    그러니 **push 하고 나서 이 체크가 초록인지 반드시 확인**하고,
+#    빨간불이면 즉시 되돌린다 — 되돌리는 것도 push 한 번이다.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: v1/recipes.json
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # revision 이 올라갔는지 보려면 직전 커밋이 필요하다.
+          fetch-depth: 2
+
+      - name: 이전 커밋의 레시피 꺼내기
+        id: previous
+        run: |
+          if git rev-parse HEAD~1 >/dev/null 2>&1 &&
+             git cat-file -e HEAD~1:v1/recipes.json 2>/dev/null; then
+            git show HEAD~1:v1/recipes.json > /tmp/previous.json
+            echo "path=/tmp/previous.json" >> "$GITHUB_OUTPUT"
+            echo "직전 커밋의 레시피를 가져왔다 — revision 증가를 확인한다."
+          else
+            echo "path=" >> "$GITHUB_OUTPUT"
+            echo "비교할 이전본이 없다 (최초 커밋) — revision 증가 확인은 건너뛴다."
+          fi
+
+      - name: 검증
+        run: |
+          if [ -n "${{ steps.previous.outputs.path }}" ]; then
+            python3 tools/validate_recipe.py v1/recipes.json \
+              --previous "${{ steps.previous.outputs.path }}"
+          else
+            python3 tools/validate_recipe.py v1/recipes.json
+          fi
+
+      # 검사기가 아무것도 안 잡고 통과시키는 상태와, 정말 문제가 없는 상태를
+      # 구분한다. 일부러 망가뜨린 레시피가 각각 떨어져야 초록이 된다.
+      - name: 검증기 자가진단 (양성 대조군)
+        run: bash tools/selftest.sh v1/recipes.json
+
+      # 앱이 파일 크기 512KB 를 넘는 응답을 파싱 전에 버린다
+      # (app/lib/data/resolver/recipe/http_recipe_source.dart, maxBodyBytes).
+      - name: 크기 상한
+        run: |
+          bytes=$(wc -c < v1/recipes.json)
+          echo "v1/recipes.json = ${bytes} bytes"
+          if [ "$bytes" -gt 524288 ]; then
+            echo "FAIL: 512KB 를 넘으면 앱이 파싱하기 전에 버린다"; exit 1
+          fi
+          echo "PASS: 512KB 이내"
